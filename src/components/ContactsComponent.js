@@ -2,9 +2,10 @@
 
 // Importa as bibliotecas necessárias
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Alert, StyleSheet } from 'react-native';
 import * as Contacts from 'expo-contacts/legacy';
 import { FontAwesome } from '@expo/vector-icons';
+import ActionButton from './ActionButton';
 
 // Define o componente funcional
 const ContactsComponent = () => {
@@ -75,10 +76,11 @@ const ContactsComponent = () => {
   return (
     // Contêiner principal com estilo de preenchimento
     <View style={styles.container}>
+      <Text style={styles.title}>Contatos do dispositivo</Text>
+      <Text style={styles.description}>Consulte os telefones e e-mails salvos na agenda.</Text>
+
       {/* Botão para recarregar os contatos manualmente */}
-      <View style={styles.buttonContainer}>
-        <Button title="Recarregar Contatos" onPress={loadContacts} />
-      </View>
+      <ActionButton title="Recarregar Contatos" onPress={loadContacts} variant="secondary" />
 
       {/* Lista de contatos exibida usando FlatList */}
       <FlatList
@@ -86,6 +88,7 @@ const ContactsComponent = () => {
         keyExtractor={(item) => item.id} // Chave única para cada item
         renderItem={renderItem} // Função para renderizar cada item
         contentContainerStyle={styles.list} // Estilo do conteúdo da lista
+        scrollEnabled={false} // A rolagem é controlada pela tela principal
       />
     </View>
   );
@@ -94,25 +97,41 @@ const ContactsComponent = () => {
 // Define os estilos utilizados no componente
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ocupa todo o espaço disponível
-    padding: 20, // Espaçamento interno
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    padding: 24, // Espaçamento interno
     backgroundColor: '#fff', // Cor de fundo branca
+    borderRadius: 18,
+    boxShadow: '0 4px 10px rgba(15, 23, 42, 0.1)',
   },
-  buttonContainer: {
-    width: 200, // Mantém os botões com a mesma largura
-    alignSelf: 'center', // Centraliza o botão horizontalmente
+  title: {
+    alignSelf: 'stretch',
+    color: '#0f172a',
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 6,
+    textAlign: 'center',
+  },
+  description: {
+    alignSelf: 'stretch',
+    color: '#64748b',
+    fontSize: 14,
+    marginBottom: 20,
+    textAlign: 'center',
   },
   list: {
     marginTop: 20, // Espaçamento acima da lista
+    width: '100%',
   },
   contactItem: {
     padding: 15, // Espaçamento interno
     borderBottomWidth: 1, // Linha de separação inferior
-    borderColor: '#eee', // Cor da linha de separação
+    borderColor: '#e2e8f0', // Cor da linha de separação
   },
   contactName: {
     fontSize: 18, // Tamanho da fonte
     fontWeight: 'bold', // Peso da fonte
+    color: '#0f172a',
   },
   contactDetail: {
     fontSize: 14, // Tamanho da fonte

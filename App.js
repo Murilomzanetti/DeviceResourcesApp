@@ -11,11 +11,11 @@ const App = () => {
   return (
     // SafeAreaView para garantir que o conteúdo não ultrapasse áreas seguras do dispositivo
     <SafeAreaView style={styles.container}>
-      {/* Renderiza o componente de seleção de imagem */}
-      <ImagePickerComponent />
-
       {/* ScrollView para permitir rolagem caso o conteúdo exceda a tela */}
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.content}>
+        {/* Renderiza o componente de seleção de imagem */}
+        <ImagePickerComponent />
+
         {/* Renderiza o componente de contatos */}
         <ContactsComponent />
       </ScrollView>
@@ -27,7 +27,13 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1, // Ocupa todo o espaço disponível
-    backgroundColor: '#f0f0f0', // Cor de fundo cinza claro
+    backgroundColor: '#f1f5f9', // Cor de fundo cinza claro
+  },
+  content: {
+    alignItems: 'stretch',
+    gap: 20,
+    padding: 20,
+    paddingBottom: 40,
   },
 });
 

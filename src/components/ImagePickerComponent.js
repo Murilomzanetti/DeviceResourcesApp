@@ -2,8 +2,9 @@
 
 // Importa as bibliotecas necessárias
 import React, { useState } from 'react';
-import { View, Button, Image, Alert, StyleSheet } from 'react-native';
+import { View, Image, Alert, StyleSheet, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import ActionButton from './ActionButton';
 
 // Define o componente funcional
 const ImagePickerComponent = () => {
@@ -38,20 +39,31 @@ const ImagePickerComponent = () => {
     setImageUri(result.assets[0].uri);
   };
 
+  // Remove da tela a imagem selecionada sem precisar recarregar a aplicação
+  const removeImage = () => {
+    setImageUri(null);
+  };
+
   return (
     // Contêiner principal com estilo centralizado
     <View style={styles.container}>
+      <Text style={styles.title}>Galeria de imagens</Text>
+      <Text style={styles.description}>Selecione uma imagem armazenada no dispositivo.</Text>
+
       {/* Botão para selecionar imagem */}
-      <View style={styles.buttonContainer}>
-        <Button title="Selecionar Imagem" onPress={selectImage} />
-      </View>
+      <ActionButton title="Selecionar Imagem" onPress={selectImage} />
 
       {/* Exibe a imagem selecionada, se houver */}
       {imageUri && (
-        <Image
-          source={{ uri: imageUri }} // Fonte da imagem
-          style={styles.image} // Estilo da imagem
-        />
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: imageUri }} // Fonte da imagem
+            style={styles.image} // Estilo da imagem
+          />
+
+          {/* Remove a imagem selecionada sem atualizar a página */}
+          <ActionButton title="Remover Imagem" onPress={removeImage} variant="danger" />
+        </View>
       )}
     </View>
   );
@@ -60,21 +72,37 @@ const ImagePickerComponent = () => {
 // Define os estilos utilizados no componente
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ocupa todo o espaço disponível
-    justifyContent: 'center', // Centraliza verticalmente
+    alignSelf: 'stretch',
     alignItems: 'center', // Centraliza horizontalmente
-    padding: 20, // Espaçamento interno
+    padding: 24, // Espaçamento interno
     backgroundColor: '#fff', // Cor de fundo branca
+    borderRadius: 18,
+    boxShadow: '0 4px 10px rgba(15, 23, 42, 0.1)',
   },
-  buttonContainer: {
-    width: 200, // Mantém os botões com a mesma largura
-    alignSelf: 'center', // Centraliza o botão horizontalmente
+  title: {
+    alignSelf: 'stretch',
+    color: '#0f172a',
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 6,
+    textAlign: 'center',
+  },
+  description: {
+    alignSelf: 'stretch',
+    color: '#64748b',
+    fontSize: 14,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  imageContainer: {
+    alignItems: 'center',
+    gap: 16,
   },
   image: {
-    width: 200, // Largura da imagem
-    height: 200, // Altura da imagem
+    width: 220, // Largura da imagem
+    height: 220, // Altura da imagem
     marginTop: 20, // Espaçamento acima da imagem
-    borderRadius: 10, // Bordas arredondadas
+    borderRadius: 14, // Bordas arredondadas
   },
 });
 
